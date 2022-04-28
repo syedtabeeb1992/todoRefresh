@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
+  const [todos, setTodos] = useState([
+    { task: "take out trash", id: 1 },
+    { task: "feed the cat", id: 2 },
+  ]);
+
+  const deleteTodoHandler = (todosId) => {
+    console.log(todosId);
+
+    setTodos((pervTodos) => {
+      // const updatedTodos = pervTodos.filter((todo) => todo.id !== todosId);
+      const updatedTodos = pervTodos.filter((todo) => {
+        return todo.id !== todosId;
+      });
+      return updatedTodos;
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="inputtodo">
+        <input type="text" />
+      </div>
+
+      <div className="todolist">
+        {todos.map((todo) => {
+          return (
+            <p onClick={(todoItem) => deleteTodoHandler(todo.id)}>
+              {todo.task}
+            </p>
+          );
+        })}
+      </div>
     </div>
   );
 }
