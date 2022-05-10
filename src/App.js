@@ -1,52 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import "./App.css";
+import Input from "./components/Input";
+import TodoList from "./components/TodoList";
 
-function App() {
+function App(props) {
   const [todos, setTodos] = useState([
     { task: "take out trash", id: 1 },
     { task: "feed the cat", id: 2 },
   ]);
-  const [enteredTodo, setEnteredTodo] = useState([]);
 
-  const inputChangeHandler = (event) => {
-    setEnteredTodo(event.target.value);
-  };
-
-  const deleteTodoHandler = (todosId) => {
-    // console.log(todosId);
-    setTodos((pervTodos) => {
-      const updatedTodos = pervTodos.filter((todo) => {
-        return todo.id !== todosId;
-      });
-      return updatedTodos;
+  const addTodoHandler = (recievedData) => {
+    setTodos((prevUsersList) => {
+      return [...prevUsersList, { task: recievedData, id: Math.random() }];
     });
   };
 
-  const addTodoHandler = () => {
-    setEnteredTodo("");
-    setTodos((prevUsersList) => {
-      return [...prevUsersList, { task: enteredTodo, id: Math.random() }];
+  const deleteTodoHandler = (recievedData) => {
+    setTodos((pervTodos) => {
+      const updatedTodos = pervTodos.filter((todo) => {
+        return todo.id !== recievedData;
+      });
+      return updatedTodos;
     });
   };
 
   return (
     <div>
       <div className="inputtodo">
-        <input type="text" onChange={inputChangeHandler} value={enteredTodo} />
+        <Input todoItem={addTodoHandler} />
       </div>
-      <button onClick={addTodoHandler}>Add</button>
-      <div className="todolist">
-        {todos.map((todo) => {
-          return (
-            <p key={todo.id} onClick={(todoItem) => deleteTodoHandler(todo.id)}>
-              {todo.task}
-            </p>
-          );
-        })}
-      </div>
+
+      <TodoList todos={todos} todoItemId={deleteTodoHandler} />
     </div>
   );
 }
-
 
 export default App;
