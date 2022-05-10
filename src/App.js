@@ -6,12 +6,15 @@ function App() {
     { task: "take out trash", id: 1 },
     { task: "feed the cat", id: 2 },
   ]);
+  const [enteredTodo, setEnteredTodo] = useState([]);
+
+  const inputChangeHandler = (event) => {
+    setEnteredTodo(event.target.value);
+  };
 
   const deleteTodoHandler = (todosId) => {
-    console.log(todosId);
-
+    // console.log(todosId);
     setTodos((pervTodos) => {
-      // const updatedTodos = pervTodos.filter((todo) => todo.id !== todosId);
       const updatedTodos = pervTodos.filter((todo) => {
         return todo.id !== todosId;
       });
@@ -19,22 +22,28 @@ function App() {
     });
   };
 
+  const addTodoHandler = () => {
+    setEnteredTodo("");
+    setTodos((prevUsersList) => {
+      return [...prevUsersList, { task: enteredTodo, id: Math.random() }];
+    });
+  };
+
   return (
     <div>
       <div className="inputtodo">
-        <input type="text" />
+        <input type="text" onChange={inputChangeHandler} value={enteredTodo} />
       </div>
-
+      <button onClick={addTodoHandler}>Add</button>
       <div className="todolist">
         {todos.map((todo) => {
           return (
-            <p onClick={(todoItem) => deleteTodoHandler(todo.id)}>
+            <p key={todo.id} onClick={(todoItem) => deleteTodoHandler(todo.id)}>
               {todo.task}
             </p>
           );
         })}
       </div>
-      
     </div>
   );
 }
