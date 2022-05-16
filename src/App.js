@@ -1,7 +1,8 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Input from "./components/Input";
 import TodoList from "./components/TodoList";
+import TryContext from "./context/tryContext";
 
 function App(props) {
   const [todos, setTodos] = useState([
@@ -26,11 +27,13 @@ function App(props) {
 
   return (
     <div>
-      <div className="inputtodo">
-        <Input todoItem={addTodoHandler} />
-      </div>
+ 
+        <div className="inputtodo">
+          <Input todoItem={addTodoHandler} />
+        </div>
 
-      <TodoList todos={todos} todoItemId={deleteTodoHandler} />
+        <TodoList todos={todos} todoItemId={deleteTodoHandler} />
+
     </div>
   );
 }
